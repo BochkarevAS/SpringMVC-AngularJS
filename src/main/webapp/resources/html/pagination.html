@@ -1,0 +1,27 @@
+<nav>
+    <ul class="pagination">
+        <li ng-class="{disabled: firstPage()}" ng-click="goToFirstPage()">
+            <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li ng-class="{disabled: !hasPrev()}" ng-click="prev()">
+            <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&lsaquo;</span>
+            </a>
+        </li>
+        <li ng-repeat="page in pages" ng-class="{active: isCurrent(page)}" ng-click="setCurrent(page)">
+            <a>{{ page }}</a>
+        </li>
+        <li ng-class="{disabled: !hasNext()}" ng-click="next()">
+            <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&rsaquo;</span>
+            </a>
+        </li>
+        <li ng-class="{disabled: lastPage()}" ng-click="goToLastPage()">
+            <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>

@@ -1,0 +1,72 @@
+
+- {{}} и ng-bind(<span ng-bind="data.length"></span>) - однонаправленная привязка "грубо говаря передача по значению";
+- ng-model(<input ng-model="text"/>) - указывает что поле ввода связанно со свойство $scope.text двух направленная привязка "грубо говаря ссылка";
+- ng-controllrer - атрибут определяет область разметки, за которую будет отвечать контроллер;
+- ng-click - определяет обработчик события click;
+- ng-repeat(<tr ng-repeat="item in items"></tr>) - если деректива привязана к <tr> то тогда будет на каждой итерации создаватся новая строка(<tr>);
+- ng-repeat позволяет обхадить объект следующим способом <span ng-repeat="(key, value) in course"> {{key}} = {{value}}, </span>;
+- ng-repeat содержит встроенную переменную $index которая содержит номер интерции;
+- ng-repeat содержит две встроенные переменные для коллекция $first, $last доступ к первому и последнемму элементу соответственно;
+- ng-options динамически генерирует <option> для <select> пример (<select ng-model="selected" ng-options="item for item in items"></select>), item in items просто перебор, item for кокое поле из объекта вывести в данном случае весь обект;
+- <select ng-model="selected" ng-options="item.prop1 for item in items track by item.prop2"></select> использовать свойство prop1 для текста элемента,
+        использовать свойство prop2 для value элемента option
+- ng-include деректива для скачивания, компиляции и добавления фрогмента HTML в документ. HTML фрагмент с сервера загружается с помощю AJAX.
+        Пример: 1. Отдельный HTML атрибут => <ng-include src="url"></ng-include>
+                2. Атрибут <span ng-include="url"></span>
+                3. Класс <span class="ng-include: url;"></span>
+- ng-switch директива используется для переключения структуры DOM дерева на основе выражения. Деректива ничего не загружает с сервера, а просто переключает вид;
+        Пример: Будет включён необходимый блок.
+        <select ng-model="selected" ng-options="user.name for user in users track by user.age"></select>
+
+        <div ng-switch on="selected.age">
+            <ol ng-switch-when="10">
+                <li ng-repeat="user in users">{{user.name}}, {{user.age}}</li>
+            </ol>
+            <ul ng-switch-when="11">
+                <li ng-repeat="user in users">{{user.name}}, {{user.age}}</li>
+            </ul>
+        </div>
+- ng-hide директива используется для скрытия элемента если false элемент виден если true то нет. Пример <div ng-hide="hide1"></div>;
+- ng-show директива используется для скрытия элемента если true элемент виден если false то нет. Пример <div ng-show="hide1"></div>;
+- ng-if директива полностью удаляет элемент из DOM;
+- ng-class директива позваляет устанавливать классы для HTML. Пример <div class="test" ng-class="selectedClass">{{selectedClass}}</div>, <li ng-repeat="item in data" ng-class="{'name-class': true or false}">, <div ng-class="apt >= 15 ? 'class1' : 'class2'">
+- ng-style директива позваляет устанавливать стили для HTML.
+- ng-class деректива позваляет добавить класс к элементу, есть переменная (ng-class-even) содержит значения true если элемент чётный иначе false, переменная (ng-class-odd) всё наоборот;
+        Обработка событий. Общий вид <button ng-click="expression"></button>
+        Дерективы применяеммые для валидации все они принимают либо true либо false. Если true то работают:
+- ng-checked используется для установления значения выбран не выбрвн для input;
+- ng-disabled применяется для input, button;
+- ng-readonly применяееся к inpute;
+- ng-selected - используется для selected в option;
+- angular.isDefined() проверка на undefained
+            Система событий $emit, $broadcast и $on в $scope и $rootScope:
+- $scope.$emit- событие запускается вверх по области видимости;
+- $scope.$broadcast- событие запускается вниз по области видимости;
+- $scope.$on - мы “подписываемся” на прослушивание данных событий;
+            Примеры:
+- $scope.$emit('myCustomEvent', 'Data to send') - запускаем событие вверх;
+- $scope.$broadcast('myCustomEvent', {someProp: 'Sending you an Object!' // Посылайте что хотите}) - запускаем событие вниз;
+- $scope.$on('myCustomEvent', function (event, data) {console.log(data); // Данные, которые нам прислали}) - слушаем событие в нужном нам $scope;
+- $rootScope.$emit запустит событие только для слушателей, подписанных через $rootScope.$on.
+            Самое интересное в том, что $rootScope.$broadcast уведомит как все $rootScope.$on, так и $scope.$on слушателей;
+            Фмльтры - еужны для форматирования данных(общий вид {{ expression | filterName : parameter1 : ...parameterN }}). Существуют в angularjs два вида фильтров:
+- Для работы с еденичными данными (дата т.т.д);
+- Для работы с колекциями;
+            Создание пользовательских фильтров:
+            app.filter('makeUppercase', function () {
+                return function (item) {
+                    return item.toUpperCase();
+                };
+            });
+            Обявление в контроллере
+            div ng-app="app">
+            <div ng-controller="PersonCtrl as person">
+                <p>
+                    { { person.username | makeUppercase } }
+                </p>
+            </div>
+            Создание пользовательских деректив:
+            angular.module('directivesModule').directive('directivesName', function () {
+                return function (scope, element, attributes)[link function] { - scope дерективы, HTML элемент дерективы, атрибуты HTML элемента
+                };
+            });

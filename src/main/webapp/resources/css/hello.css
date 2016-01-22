@@ -1,0 +1,56 @@
+footer, nav, header, section, aside {
+    display: block
+}
+
+body {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    border: 1px solid blue;
+}
+
+header{
+    text-align: center;
+    background: lawngreen;
+}
+
+nav {
+    width: 305px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+section {
+    min-height: 85%;
+}
+
+section:after {
+    content: ' ';
+    display: block;
+}
+
+footer {
+    clear: both;
+    height: 40px;
+    padding: 10px;
+    background: lawngreen;
+}
+
+footer p {
+    font-size: 14px;
+    text-align: center;
+}
+
+.set-collor {
+    background-color: pink;
+}
+
+.has-error {
+    color: red;
+}
+
+.has-success {
+   color: blue;
+}
