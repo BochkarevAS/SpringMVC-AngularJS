@@ -13,16 +13,10 @@
 
 	<script src="/resources/js/app/app.js"></script>
 	<script src="/resources/js/app/controller.js"></script>
-	<script src="/resources/js/app/directive.js"></script>
-	<script src="/resources/js/app/service.js"></script>
+	<script src="/resources/js/app/ui-pagination.js"></script>
 	<script src="/resources/js/app/services.js"></script>
 
-
 	<link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css">
-
-	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-
 
 	<link rel="stylesheet" type="text/css" href="/resources/css/hello.css">
 	<link rel="stylesheet" type="text/css" href="/resources/css/pop.css">
@@ -42,7 +36,7 @@
 		</div>
 	</header>
 
-	<table class="table" ng-show="showUsers">
+	<table class="table" ng-show="showPanel == 'showUsers'">
 		<thead>
 			<tr>
 				<th></th>
@@ -77,13 +71,7 @@
 		</tbody>
 	</table>
 
-
-
-
-
-
-
-	<form name="theForm" class="form-horizontal" ng-hide="showUsers" ng-submit="createUser(user, theForm.$valid)" novalidate>
+	<form name="theForm" class="form-horizontal" ng-show="showPanel == 'createUser'" ng-submit="createUser(user, theForm.$valid)" novalidate>
 		<fieldset>
 			<div class="control-group">
 				<label class="control-label">Nick:</label>

@@ -1,2 +1,2 @@
-var module = angular.module("worldApp", ["serviceApp", "frontendServices"]);
+var module = angular.module("worldApp", ["frontendServices"]);
 

@@ -1,11 +1,11 @@
-package ru.company.spring.dao.impl;
+package ru.company.spring.repository.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.*;
 import org.springframework.stereotype.Repository;
-import ru.company.spring.dao.UserDao;
-import ru.company.spring.model.Pagination;
+import ru.company.spring.repository.UserDao;
+import ru.company.spring.model.Page;
 import ru.company.spring.model.User;
 
 import javax.sql.DataSource;
@@ -17,7 +17,7 @@ import java.util.List;
 public class UserImpl implements UserDao {
 
     @Autowired
-    private Pagination pagination;
+    private Page page;
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -27,27 +27,27 @@ public class UserImpl implements UserDao {
     }
 
     @Override
-    public int readCountUsers() {
-        String query = "SELECT count(*) FROM users";
-        int rows = jdbcTemplate.getJdbcOperations().queryForObject(query, Integer.class);
-        return rows;
-    }
-
-    @Override
-    public List<User> readUsersByPages(int page) {
-        pagination.calcPages(page);
+    public Page readUsersByPages(int index) {
+        page.calcPages(index);
         return readUsersByPages();
     };
 
     @Override
-    public List<User> readUsersByPages() {
-        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM users LIMIT :from, :to";
+    public Page readUsersByPages() {
+        String queryCount = "SELECT count(*) FROM users";
+        int rows = jdbcTemplate.getJdbcOperations().queryForObject(queryCount, Integer.class);
 
+        String queryLimit = "SELECT SQL_CALC_FOUND_ROWS * FROM users LIMIT :from, :to";
         MapSqlParameterSource parameter = new MapSqlParameterSource();
-        parameter.addValue("from", pagination.getFrom());
-        parameter.addValue("to", pagination.getTo());
+        parameter.addValue("from", page.getFrom());
+        parameter.addValue("to", page.getTo());
 
-        return jdbcTemplate.query(query, parameter, new UserRowMapper());
+        List<User> users = jdbcTemplate.query(queryLimit, parameter, new UserRowMapper());
+
+        page.setRows(rows);
+        page.setUsers(users);
+
+        return page;
     }
 
     @Override

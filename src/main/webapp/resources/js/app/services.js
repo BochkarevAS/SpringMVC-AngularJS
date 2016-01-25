@@ -1,17 +1,11 @@
 angular.module("frontendServices", []).service("UserService", function($http, $q) {
+
     return {
        getUserInfo: function(page) {
-           var newUrl= "/user/" + page;
-
-           if (page === undefined) {
-               newUrl = "/user/" + 1;
-           } else if (page === false) {
-               newUrl = "/user";
-           }
-
            var deferred = $q.defer();
+           if (page === undefined) page = 1;
            $http({
-               url: newUrl,
+               url: "/user/" + page,
                method: "GET"
            }).then(function(response) {
                if (response.status == 200) {
@@ -43,7 +37,7 @@ angular.module("frontendServices", []).service("UserService", function($http, $q
                url: "/user",
                method: "DELETE",
                data: listIndex,
-               headers: {"Content-Type": "application/json"}
+               headers: { "Content-Type": "application/json" }
            }).then(function(response) {
                if (response.status == 200) {
                    deferred.resolve(response.data);

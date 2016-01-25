@@ -1,18 +1,26 @@
 angular.module("worldApp").controller("worldCtrl", function($scope, $http, UserService) { // Определение контроллера
 
-    UserService.getUserInfo(false).then(function(response) {
-        $scope.pagination['total'] = $scope.calcPages(response);
-    });
+    $scope.pagination = { current: 1, total: 5, range: 5 };
+    $scope.selectCheckbox = [];
+    $scope.selectRemove = false;
+    $scope.deleteUser = true;
+    $scope.showPanel = "showUsers";
 
-    UserService.getUserInfo().then(function(response) {
-        $scope.items = response;
-    });
+    $scope.getUsersByPage = function(page) {
+        UserService.getUserInfo(page).then(function(response) {
+            $scope.pagination['total'] = $scope.calcPages(response.rows);
+            $scope.items = response.users;
+        });
+    };
+
+    $scope.getUsersByPage(1);
 
     $scope.createUser = function(user, valid) {
         if (valid) {
-            $scope.showUsers = true;
+            $scope.showPanel = "showUsers";
             UserService.getUserCreate(user).then(function(response) {
-                $scope.items = response;
+                $scope.pagination['total'] = $scope.calcPages(response.rows);
+                $scope.items = response.users;
             });
         } else {
             $scope.showError = true;
@@ -21,8 +29,14 @@ angular.module("worldApp").controller("worldCtrl", function($scope, $http, UserS
 
     $scope.delUser = function() {
         UserService.getUserDelete($scope.selectCheckbox).then(function(response) {
-            $scope.items = response;
+
+            if (response.users.length === 0 && response.rows > 1) {
+                var page = --$scope.pagination.current;
+                $scope.getUsersByPage(page);
+            } else
+                $scope.items = response.users;
         });
+
         $scope.deleteUser = true;
         $scope.selectCheckbox = [];
     };
@@ -32,13 +46,6 @@ angular.module("worldApp").controller("worldCtrl", function($scope, $http, UserS
         return Math.floor((rows % range == 0) ? (rows / range) : (rows / range) + 1);
     };
 
-    $scope.pagination = { current: 1, total: 5, range: 5 };
-
-    $scope.selectCheckbox = [];
-    $scope.selectRemove = false;
-    $scope.showUsers = true;
-    $scope.deleteUser = true;
-
     $scope.toggleItem = function(id) {
         var index = $scope.selectCheckbox.indexOf(id);
         (index > -1) ? $scope.selectCheckbox.splice(index, 1) : $scope.selectCheckbox.push(id);
@@ -46,7 +53,7 @@ angular.module("worldApp").controller("worldCtrl", function($scope, $http, UserS
     };
 
     $scope.toggleShowUsers = function() {
-        $scope.showUsers = false;
+        $scope.showPanel = "createUser";
     };
 
     $scope.getError = function(error) {
@@ -65,8 +72,6 @@ angular.module("worldApp").controller("worldCtrl", function($scope, $http, UserS
             }
         }
     };
-
-
 
 
 });
