@@ -5,9 +5,7 @@ import ru.company.spring.model.User;
 
 public interface UserDao {
 
-    Page readUsersByPages();
-
-    Page readUsersByPages(int page);
+    Page readUsersByPages(Page index);
 
     void createUser(User user);
 

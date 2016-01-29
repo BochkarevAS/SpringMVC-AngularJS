@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HelloController {
 
-	@RequestMapping(value = "/")
-	public String main(ModelMap model) {
-		model.addAttribute("message1", "Hello world!");
-		return "hello";
-	}
+//	@RequestMapping(value = "/")
+//	public String main(ModelMap model) {
+//		model.addAttribute("message1", "Hello world!");
+//		return "hello";
+//	}
 }

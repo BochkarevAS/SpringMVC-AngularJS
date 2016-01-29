@@ -34,6 +34,7 @@ angular.module("worldApp").controller("worldCtrl", function($scope, $http, UserS
                 var page = --$scope.pagination.current;
                 $scope.getUsersByPage(page);
             } else
+                $scope.pagination['total'] = $scope.calcPages(response.rows);
                 $scope.items = response.users;
         });
 

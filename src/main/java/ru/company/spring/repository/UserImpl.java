@@ -1,10 +1,9 @@
-package ru.company.spring.repository.impl;
+package ru.company.spring.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.*;
 import org.springframework.stereotype.Repository;
-import ru.company.spring.repository.UserDao;
 import ru.company.spring.model.Page;
 import ru.company.spring.model.User;
 
@@ -27,13 +26,7 @@ public class UserImpl implements UserDao {
     }
 
     @Override
-    public Page readUsersByPages(int index) {
-        page.calcPages(index);
-        return readUsersByPages();
-    };
-
-    @Override
-    public Page readUsersByPages() {
+    public Page readUsersByPages(Page page) {
         String queryCount = "SELECT count(*) FROM users";
         int rows = jdbcTemplate.getJdbcOperations().queryForObject(queryCount, Integer.class);
 
