@@ -1,4 +1,4 @@
-angular.module("frontendServices", []).service("UserService", function($http, $q) {
+angular.module("userService", []).service("UserService", function($http, $q) {
 
     return {
        getUserInfo: function(page) {

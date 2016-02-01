@@ -13,10 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class UserImpl implements UserDao {
-
-    @Autowired
-    private Page page;
+public class UserDaoImpl implements UserDao {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -27,19 +24,16 @@ public class UserImpl implements UserDao {
 
     @Override
     public Page readUsersByPages(Page page) {
-        String queryCount = "SELECT count(*) FROM users";
-        int rows = jdbcTemplate.getJdbcOperations().queryForObject(queryCount, Integer.class);
+        int rows = jdbcTemplate.getJdbcOperations().queryForObject("SELECT count(*) FROM users", Integer.class);
+        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM users LIMIT :from, :to";
 
-        String queryLimit = "SELECT SQL_CALC_FOUND_ROWS * FROM users LIMIT :from, :to";
-        MapSqlParameterSource parameter = new MapSqlParameterSource();
-        parameter.addValue("from", page.getFrom());
-        parameter.addValue("to", page.getTo());
+        MapSqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("from", page.getFrom())
+                .addValue("to", page.getTo());
 
-        List<User> users = jdbcTemplate.query(queryLimit, parameter, new UserRowMapper());
-
+        List<User> users = jdbcTemplate.query(query, parameter, new UserRowMapper());
         page.setRows(rows);
         page.setUsers(users);
-
         return page;
     }
 
@@ -61,6 +55,13 @@ public class UserImpl implements UserDao {
             parameter[i] = new BeanPropertySqlParameterSource(user);
         }
         jdbcTemplate.batchUpdate(query, parameter);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        String query = "UPDATE users SET nick=:nick, login=:login, email=:email WHERE id=:id";
+        SqlParameterSource parameter = new BeanPropertySqlParameterSource(user);
+        jdbcTemplate.update(query, parameter);
     }
 
     private static final class UserRowMapper implements RowMapper<User> {

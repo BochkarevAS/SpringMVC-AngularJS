@@ -1,0 +1,49 @@
+<div class="container">
+    <div id="myModal" class="modal fade in">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <a class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></a>
+                    <h4 class="modal-title">Modal Heading</h4>
+                </div>
+
+                <div class="modal-body">
+                <form name="theForm" class="form-horizontal" ng-submit="updateUser(user, theForm.$valid)" novalidate>
+                    <div style="margin-bottom: 25px">
+                        <div style="margin-bottom: 5px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" class="form-control" name="nick" placeholder="Nick" ng-model="user.nick" minlength="3" maxlength="7" required />
+                        </div>
+                        <div ng-show="showError" ng-class="isStyle ? 'has-error alert alert-danger' : 'has-success alert alert-info'">{{ getError(theForm.nick.$error) }}</div>
+                    </div>
+
+                    <div style="margin-bottom: 25px">
+                        <div style="margin-bottom: 5px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="text" class="form-control" name="login" ng-model="user.login" placeholder="Login" ng-model="user.login" minlength="3" maxlength="7" required />
+                        </div>
+                        <div ng-show="showError" ng-class="isStyle ? 'has-error alert alert-danger' : 'has-success alert alert-info'">{{ getError(theForm.login.$error) }}</div>
+                    </div>
+
+                    <div style="margin-bottom: 25px">
+                        <div style="margin-bottom: 5px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input type="email" class="form-control" name="email" placeholder="Email" ng-model="user.email" required />
+                        </div>
+                        <div ng-show="showError" ng-class="isStyle ? 'has-error alert alert-danger' : 'has-success alert alert-info'">{{ getError(theForm.email.$error) }}</div>
+                    </div>
+
+                    <div style="margin-top:10px" class="form-group">
+                        <div class="col-sm-12 controls" align="center">
+                            <button type="submit" class="btn btn-danger">Save</button>
+                            <button type="submit"class="btn btn-primary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+</div>

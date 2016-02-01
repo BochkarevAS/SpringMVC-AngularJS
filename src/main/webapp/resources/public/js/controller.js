@@ -5,6 +5,7 @@ angular.module("worldApp").controller("worldCtrl", function($scope, $http, UserS
     $scope.selectRemove = false;
     $scope.deleteUser = true;
     $scope.showPanel = "showUsers";
+    $scope.search = { input: "", status: "Nick" };
 
     $scope.getUsersByPage = function(page) {
         UserService.getUserInfo(page).then(function(response) {
@@ -42,6 +43,11 @@ angular.module("worldApp").controller("worldCtrl", function($scope, $http, UserS
         $scope.selectCheckbox = [];
     };
 
+    $scope.searchUser = function(search) {
+        console.log(search.input);
+        console.log(search.status);
+    };
+
     $scope.calcPages = function (rows) {
         var range = $scope.pagination['range'];
         return Math.floor((rows % range == 0) ? (rows / range) : (rows / range) + 1);
@@ -55,6 +61,10 @@ angular.module("worldApp").controller("worldCtrl", function($scope, $http, UserS
 
     $scope.toggleShowUsers = function() {
         $scope.showPanel = "createUser";
+    };
+
+    $scope.setUser = function(user) {
+        $scope.user = user;
     };
 
     $scope.getError = function(error) {
@@ -73,6 +83,5 @@ angular.module("worldApp").controller("worldCtrl", function($scope, $http, UserS
             }
         }
     };
-
 
 });

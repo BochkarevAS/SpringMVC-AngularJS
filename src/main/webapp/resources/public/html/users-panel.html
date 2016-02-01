@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="col-md-11">
+        <table class="table" ng-show="showPanel == 'showUsers'">
+            <thead>
+                <th></th>
+                <th>Nick</th>
+                <th>Login</th>
+                <th>Email</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                <tr ng-class="{'set-collor': selectRemove}" ng-repeat="item in items">
+                    <td><input type="checkbox" ng-model="selectRemove" ng-click="toggleItem(item.id)"/></td>
+                    <td>{{ item.nick }}</td>
+                    <td>{{ item.login }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>
+                        <button data-toggle="modal" href="#myModal" class="btn btn-primary" title="Edit" ng-click="setUser(item)"><span class="glyphicon glyphicon-pencil"></span></button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" title="Delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <modal-dialog></modal-dialog>
+    </div>
+</div>

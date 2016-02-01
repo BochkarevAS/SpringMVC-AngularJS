@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html ng-app="ajax">
@@ -6,7 +5,7 @@
 <head>
     <title>angular</title>
     <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/hello.css">
+    <link rel="stylesheet" type="text/css" href="/resources/public/css/hello.css">
 </head>
 
 <body>
@@ -43,7 +42,7 @@
         </div>
     </nav>
 
-    <script src="/resources/jquery/jquery-2.2.0.min.js"></script>
+    <script src="/resources/js/jquery-2.2.0.min.js"></script>
     <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
 </body>
 

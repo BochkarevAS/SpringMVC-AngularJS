@@ -35,4 +35,13 @@ public class MainController {
         Page page = userService.readUsersByPages(currentPage);
         return page;
     }
+
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public Page updateUser(@RequestBody User user) {
+        System.out.println(user.getEmail());
+        userService.updateUser(user);
+        Page page = userService.readUsersByPages(currentPage);
+        return page;
+    }
 }

@@ -8,7 +8,7 @@ angular.module("worldApp").directive("uiPagination", function($http, UserService
             total: "=", //кол-во всего страниц
             range: "=" //кол-во страниц которые видны
         },
-        templateUrl: "/resources/html/pagination.html",
+        templateUrl: "/resources/public/html/pagination.html",
 
         link: function(scope, element, attribute) {
             var calcPages = function() {

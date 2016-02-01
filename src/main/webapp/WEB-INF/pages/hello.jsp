@@ -8,12 +8,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Front-End</title>
 	<script src="/resources/js/angular.js"></script>
-	<script src="/resources/js/app/app.js"></script>
-	<script src="/resources/js/app/controller.js"></script>
-	<script src="/resources/js/app/ui-pagination.js"></script>
-	<script src="/resources/js/app/services.js"></script>
+	<script src="/resources/public/js/app.js"></script>
+	<script src="/resources/public/js/controller.js"></script>
+	<script src="/resources/public/js/ui-pagination.js"></script>
+	<script src="/resources/public/js/user-service.js"></script>
+	<script src="/resources/public/js/user-directive.js"></script>
 	<link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/resources/css/hello.css">
+	<link rel="stylesheet" type="text/css" href="/resources/public/css/hello.css">
+	<link rel="stylesheet" type="text/css" href="/resources/public/css/modal-dialog.css">
 </head>
 
 <body ng-controller="worldCtrl">
@@ -29,20 +31,24 @@
 	</header>
 
 	<div class="well" ng-show="showPanel == 'showUsers'">
+
+		<input type="text" ng-model="search.input" placeholder="Search..." required />
+		<select ng-model="search.status" ng-options="item for item in ['Nick', 'Login', 'Email']"></select>
+		<button ng-click="searchUser(search)">Search</button>
+
 		<div class="btn-group">
-			<button class="btn btn-default" ng-disabled="deleteUser" ng-click="delUser()">Deleted</button>
+			<button class="btn btn-default" ng-disabled="deleteUser" ng-click="delUser()">Delete Selected</button>
 			<button class="btn btn-default" ng-click="toggleShowUsers()">Create</button>
-			<button class="btn btn-default">BBBBBBB</button>
 		</div>
 	</div>
 
-	<ng-include src="'/resources/html/users-panel.html'"></ng-include>
+	<ng-include src="'/resources/public/html/users-panel.html'"></ng-include>
 
-	<ng-include src="'/resources/html/users-create.html'"></ng-include>
+	<ng-include src="'/resources/public/html/users-create.html'"></ng-include>
 
 	<ui-pagination ng-show="showPanel == 'showUsers'" items="items" range="pagination.range" current="pagination.current" total="pagination.total"></ui-pagination>
 
-	<script src="/resources/jquery/jquery-2.2.0.min.js"></script>
+	<script src="/resources/js/jquery-2.2.0.min.js"></script>
 	<script src="/resources/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
