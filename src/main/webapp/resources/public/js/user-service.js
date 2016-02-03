@@ -26,7 +26,7 @@ angular.module("userService", []).service("UserService", function($http, $q) {
                if (response.status == 200) {
                    deferred.resolve(response.data);
                } else {
-                   deferred.reject('Error retrieving user info');
+                   deferred.reject('Error user create');
                }
            });
            return deferred.promise;
@@ -42,10 +42,25 @@ angular.module("userService", []).service("UserService", function($http, $q) {
                if (response.status == 200) {
                    deferred.resolve(response.data);
                } else {
-                   deferred.reject('Error retrieving user info');
+                   deferred.reject('Error user delete');
+               }
+           });
+           return deferred.promise;
+       },
+       getUserSearch: function(search) {
+           var deferred = $q.defer();
+           $http({
+               url: "/user/search",
+               method: "PUT",
+               data: search
+           }).then(function(response) {
+               if (response.status == 200) {
+                   deferred.resolve(response.data);
+               } else {
+                   deferred.reject('Error user search');
                }
            });
            return deferred.promise;
        }
-    }
+    };
 });

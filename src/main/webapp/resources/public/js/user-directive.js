@@ -6,7 +6,7 @@ angular.module("userDirective", []).directive("modalDialog", function($http) {
         transclude: true, // вставлять пользовательский контент внутри директивы
         link: function(scope, element, attributes) {
 
-            scope.updateUser = function(user, valid) { console.log(scope.user);
+            scope.updateUser = function(user, valid) {
                 if (valid) {
                     $http({
                         url: "/user",

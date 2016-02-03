@@ -39,6 +39,7 @@
 		<div class="btn-group">
 			<button class="btn btn-default" ng-disabled="deleteUser" ng-click="delUser()">Delete Selected</button>
 			<button class="btn btn-default" ng-click="toggleShowUsers()">Create</button>
+			<button class="btn btn-default" ng-click="getUsersByPage()">Show all users</button>
 		</div>
 	</div>
 
@@ -46,7 +47,7 @@
 
 	<ng-include src="'/resources/public/html/users-create.html'"></ng-include>
 
-	<ui-pagination ng-show="showPanel == 'showUsers'" items="items" range="pagination.range" current="pagination.current" total="pagination.total"></ui-pagination>
+	<ui-pagination ng-show="showPanel == 'showUsers' && showSearch == true" items="items" range="pagination.range" current="pagination.current" total="pagination.total"></ui-pagination>
 
 	<script src="/resources/js/jquery-2.2.0.min.js"></script>
 	<script src="/resources/bootstrap/js/bootstrap.min.js"></script>

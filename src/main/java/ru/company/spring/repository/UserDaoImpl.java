@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.*;
 import org.springframework.stereotype.Repository;
 import ru.company.spring.model.Page;
+import ru.company.spring.model.SearchUser;
 import ru.company.spring.model.User;
 
 import javax.sql.DataSource;
@@ -26,11 +27,7 @@ public class UserDaoImpl implements UserDao {
     public Page readUsersByPages(Page page) {
         int rows = jdbcTemplate.getJdbcOperations().queryForObject("SELECT count(*) FROM users", Integer.class);
         String query = "SELECT SQL_CALC_FOUND_ROWS * FROM users LIMIT :from, :to";
-
-        MapSqlParameterSource parameter = new MapSqlParameterSource()
-                .addValue("from", page.getFrom())
-                .addValue("to", page.getTo());
-
+        SqlParameterSource parameter = new BeanPropertySqlParameterSource(page);
         List<User> users = jdbcTemplate.query(query, parameter, new UserRowMapper());
         page.setRows(rows);
         page.setUsers(users);
@@ -62,6 +59,14 @@ public class UserDaoImpl implements UserDao {
         String query = "UPDATE users SET nick=:nick, login=:login, email=:email WHERE id=:id";
         SqlParameterSource parameter = new BeanPropertySqlParameterSource(user);
         jdbcTemplate.update(query, parameter);
+    }
+
+    @Override
+    public List<User> searchUser(SearchUser searchUser) {
+        String query = "SELECT * FROM users WHERE `" + searchUser.getStatus() + "`=:input";
+        SqlParameterSource parameter = new BeanPropertySqlParameterSource(searchUser);
+        List<User> users = jdbcTemplate.query(query, parameter, new UserRowMapper());
+        return users;
     }
 
     private static final class UserRowMapper implements RowMapper<User> {

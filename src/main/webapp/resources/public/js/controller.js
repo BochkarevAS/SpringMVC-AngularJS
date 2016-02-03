@@ -5,9 +5,12 @@ angular.module("worldApp").controller("worldCtrl", function($scope, $http, UserS
     $scope.selectRemove = false;
     $scope.deleteUser = true;
     $scope.showPanel = "showUsers";
+    $scope.showSearch = true;
     $scope.search = { input: "", status: "Nick" };
 
     $scope.getUsersByPage = function(page) {
+        $scope.showSearch = true;
+        if (page === undefined) $scope.pagination.current = 1;
         UserService.getUserInfo(page).then(function(response) {
             $scope.pagination['total'] = $scope.calcPages(response.rows);
             $scope.items = response.users;
@@ -18,9 +21,11 @@ angular.module("worldApp").controller("worldCtrl", function($scope, $http, UserS
 
     $scope.createUser = function(user, valid) {
         if (valid) {
+            $scope.showSearch = true;
             $scope.showPanel = "showUsers";
             UserService.getUserCreate(user).then(function(response) {
                 $scope.pagination['total'] = $scope.calcPages(response.rows);
+                $scope.calcPages(response.users.length);
                 $scope.items = response.users;
             });
         } else {
@@ -30,13 +35,14 @@ angular.module("worldApp").controller("worldCtrl", function($scope, $http, UserS
 
     $scope.delUser = function() {
         UserService.getUserDelete($scope.selectCheckbox).then(function(response) {
-
+            $scope.showSearch = true;
             if (response.users.length === 0 && response.rows > 1) {
                 var page = --$scope.pagination.current;
                 $scope.getUsersByPage(page);
-            } else
+            } else {
                 $scope.pagination['total'] = $scope.calcPages(response.rows);
                 $scope.items = response.users;
+            }
         });
 
         $scope.deleteUser = true;
@@ -44,11 +50,13 @@ angular.module("worldApp").controller("worldCtrl", function($scope, $http, UserS
     };
 
     $scope.searchUser = function(search) {
-        console.log(search.input);
-        console.log(search.status);
+        UserService.getUserSearch(search).then(function(response) {
+            $scope.items = response;
+            $scope.showSearch = false;
+        });
     };
 
-    $scope.calcPages = function (rows) {
+    $scope.calcPages = function(rows) {
         var range = $scope.pagination['range'];
         return Math.floor((rows % range == 0) ? (rows / range) : (rows / range) + 1);
     };
